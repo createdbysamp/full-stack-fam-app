@@ -1,0 +1,12 @@
+{
+  "version": 2,
+  "dgSpecHash": "8dWo+TV813w=",
+  "success": true,
+  "projectFilePath": "/mnt/sda2/Projects/fam/WorkoutApi/WorkoutApi.csproj",
+  "expectedPackageFiles": [
+    "/home/iq/.nuget/packages/microsoft.aspnetcore.openapi/9.0.8/microsoft.aspnetcore.openapi.9.0.8.nupkg.sha512",
+    "/home/iq/.nuget/packages/microsoft.openapi/1.6.17/microsoft.openapi.1.6.17.nupkg.sha512",
+    "/home/iq/.nuget/packages/microsoft.aspnetcore.app.ref/9.0.8/microsoft.aspnetcore.app.ref.9.0.8.nupkg.sha512"
+  ],
+  "logs": []
+}
