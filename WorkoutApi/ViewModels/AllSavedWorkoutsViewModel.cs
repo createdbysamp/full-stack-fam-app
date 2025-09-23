@@ -1,6 +1,6 @@
 namespace WorkoutApi.ViewModels;
 
-public class SavedWorkoutsViewModel
+public class AllSavedWorkoutsViewModel
 {
-    public List<
+    public List<SavedWorkoutViewModel> Workouts = new List<SavedWorkoutViewModel>();
 }
