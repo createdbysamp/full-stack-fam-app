@@ -105,7 +105,7 @@ public class AuthController : ControllerBase
         {
             Issuer = _configuration["Jwt:ValidIssuer"]!,
             Audience = _configuration["Jwt:ValidAudience"],
-            Expires = DateTime.UtcNow.AddMinutes(1), // typically 5 - 10 mins
+            Expires = DateTime.UtcNow.AddMinutes(10), // typically 5 - 10 mins
             Claims = authClaims,
             SigningCredentials = new SigningCredentials(authSigningKey, SecurityAlgorithms.HmacSha256)
         };
