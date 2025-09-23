@@ -93,10 +93,9 @@ public class AuthController : ControllerBase
         var jti = Guid.NewGuid().ToString();
         var authClaims = new Dictionary<string, object>
         {
-            { JwtRegisteredClaimNames.Sub, user.Email },
+            { JwtRegisteredClaimNames.Sub, user.Id.ToString() },
             { JwtRegisteredClaimNames.Jti, jti },
             { ClaimTypes.Name, user.UserName },
-            { ClaimTypes.NameIdentifier, user.Id.ToString() },
             { JwtRegisteredClaimNames.Email, user.Email }
         };
 
@@ -160,8 +159,12 @@ public class AuthController : ControllerBase
         
         // validation
         // 1: Check JWT Token Format
+        // Note: We do not care about validating the lifetime of the token here
+        // If it's expired, we want to refresh it.
+        var refreshValidationParameters = _tokenValidationParameters.Clone();
+        refreshValidationParameters.ValidateLifetime = false;
         var tokenInVerification = await jwtTokenHandler
-            .ValidateTokenAsync(vm.Token, _tokenValidationParameters);
+            .ValidateTokenAsync(vm.Token, refreshValidationParameters);
         JsonWebToken validatedToken;
         
         

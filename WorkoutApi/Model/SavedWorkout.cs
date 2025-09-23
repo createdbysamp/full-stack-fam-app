@@ -1,8 +1,10 @@
 using Supabase.Postgrest.Attributes;
+using Supabase.Postgrest.Models;
 
 namespace WorkoutApi.Model;
 
-public class SavedWorkouts
+[Table("saved_workouts")]
+public class SavedWorkouts : BaseModel
 {
     [PrimaryKey("id")]
     public int Id { get; set; }
@@ -10,6 +12,6 @@ public class SavedWorkouts
     [Column("content")]
     public string Content { get; set; } = string.Empty;
     
-    [Column("user_id")]
-    public int UserId { get; set; }
+    [Reference(typeof(DbUser))]
+    public DbUser User { get; set; }
 }
