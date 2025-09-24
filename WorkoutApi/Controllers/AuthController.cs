@@ -262,11 +262,12 @@ public class AuthController : ControllerBase
         return await GenerateJwtTokenAsync(appUserData, vm.RefreshToken, dbRefreshToken.JwtId);
     }
 
-    [HttpGet("protected")]
+    [HttpPost("logout")]
     [Authorize]
-    public IActionResult Protected()
+    public async Task<IActionResult> Logout(RefreshTokenViewModel vm)
     {
-        return Ok("You can access this.");
+        await _client.From<RefreshToken>().Where(x => x.Token == vm.RefreshToken).Delete();
+        return Ok("Successfully Logged out");
     }
 
     private DateTime UtcToDateTimeInUtc(long timestamp)
