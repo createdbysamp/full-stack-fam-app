@@ -1,4 +1,4 @@
-const BASE = import.meta.env.VITE_API_BASE || "http://localhost:5000";
+const BASE = import.meta.env.VITE_API_BASE || "http://localhost:5073";
 
 const STORAGE = {
   token: "token",
@@ -152,7 +152,15 @@ export async function authPing() {
 
 // ai endpoints ( will adjust if needed )
 export async function generateWorkout(payload) {
-  return http("/ai/workout", { method: "POST", body: payload });
+  // Handle both string and object inputs
+  const userInput = typeof payload === 'string' ? payload : (payload.userInput || payload);
+  
+  if (!userInput) {
+    throw new Error('userInput is required');
+  }
+  
+  const encodedInput = encodeURIComponent(userInput);
+  return http(`/ai/workout?userInput=${encodedInput}`);
 }
 
 export async function generateMeal(payload) {
