@@ -132,7 +132,7 @@ public class AiController : ControllerBase
         }
     }
 
-    [HttpGet("complete-workflow")]
+    [HttpGet("workout")]
     public async Task<IActionResult> CompleteWorkflow(string userInput)
     {
         try
