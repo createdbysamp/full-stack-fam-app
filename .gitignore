@@ -1,0 +1,9 @@
+.idea/
+FETCH_HEAD
+
+
+# Build artifacts
+obj/
+bin/
+.DS_Store
+*.user
