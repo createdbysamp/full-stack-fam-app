@@ -1,7 +1,7 @@
 namespace WorkoutApi.Model;
 
 // You can also inherit from IdentityUser here
-public class AppUser 
+public class AppUser
 {
     public int Id { get; set; }
     public string UserName { get; set; } = string.Empty;
