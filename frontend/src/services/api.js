@@ -152,11 +152,12 @@ export async function authPing() {
 
 // ai endpoints ( will adjust if needed )
 export async function generateWorkout(payload) {
-  return http("/ai/workout", { method: "POST", body: payload });
+  // const userInput = payloadInput;
+  return http("/ai/workout", { method: "GET", body: payload });
 }
 
 export async function generateMeal(payload) {
-  return http("/ai/meal", { method: "POST", body: payload });
+  return http("/ai/meal", { method: "GET", body: payload });
 }
 
 // plans and history
