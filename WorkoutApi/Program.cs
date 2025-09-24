@@ -1,16 +1,24 @@
+using System.IdentityModel.Tokens.Jwt;
 using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.IdentityModel.Tokens;
-using System.IdentityModel.Tokens.Jwt;
 using Microsoft.IdentityModel.JsonWebTokens;
-using WorkoutApi.Services;
+using Microsoft.IdentityModel.Tokens;
 using Supabase;
 using WorkoutApi.Model;
+using WorkoutApi.Services;
 using Client = Supabase.Client;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// Add services to the container.
+builder.Services.AddControllersWithViews();
+
+// GOOGLE API SERVICES
+var apiKey = builder.Configuration["GoogleAI:ApiKey"];
+builder.Services.AddSingleton<GoogleAIService>();
+
+// JWT SERVICES
 builder.Services.AddControllers().AddNewtonsoftJson();
 builder.Services.AddOpenApi();
 builder.Services.AddCors(options =>
@@ -18,68 +26,73 @@ builder.Services.AddCors(options =>
     options.AddDefaultPolicy(policy =>
     {
         policy
-            .AllowAnyOrigin()   // Allow all origins
-            .AllowAnyMethod()   // Allow all HTTP methods
-            .AllowAnyHeader();  // Allow all headers
+            .AllowAnyOrigin() // Allow all origins
+            .AllowAnyMethod() // Allow all HTTP methods
+            .AllowAnyHeader(); // Allow all headers
     });
 });
 
+// SUPABASE SINGLETON
 builder.Services.AddSingleton<Client>(p =>
 {
     var url = builder.Configuration["Supabase:Url"];
     var key = builder.Configuration["Supabase:Key"];
-    
+
     if (string.IsNullOrEmpty(url) || string.IsNullOrEmpty(key))
     {
         throw new Exception("Supabase:Url or Supabase:Key is required");
     }
 
-    var options = new SupabaseOptions
-    {
-        AutoConnectRealtime = true
-    };
+    var options = new SupabaseOptions { AutoConnectRealtime = true };
 
     var supabase = new Client(url, key, options);
     supabase.InitializeAsync().Wait();
     return supabase;
 });
 
-builder.Services.AddIdentityCore<AppUser>()
+// user validation services
+builder
+    .Services.AddIdentityCore<AppUser>()
     .AddUserStore<SupabaseUserStore>()
     .AddDefaultTokenProviders();
 
 var tokenValidationParams = new TokenValidationParameters
 {
     ValidateIssuerSigningKey = true,
-    
-    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]!)),
-    
+
+    IssuerSigningKey = new SymmetricSecurityKey(
+        Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]!)
+    ),
+
     ValidateLifetime = true,
-    
+
     ClockSkew = TimeSpan.Zero, // Access tokens by default has a lifetime of 5 minutes, and we need to override it here.
-    
-    ValidateIssuer = true, 
+
+    ValidateIssuer = true,
     ValidIssuer = builder.Configuration["Jwt:ValidIssuer"],
-    ValidateAudience = true, 
+    ValidateAudience = true,
     ValidAudience = builder.Configuration["Jwt:ValidAudience"],
 };
 
-
+// services add singletons
 builder.Services.AddSingleton(tokenValidationParams);
 
-builder.Services.AddAuthentication(options =>
-{
-    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-    options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
-}).AddJwtBearer(options =>
-{
-    options.SaveToken = true;
-    options.RequireHttpsMetadata = false;
-    options.TokenValidationParameters = tokenValidationParams;
-    options.UseSecurityTokenValidators = true;
-});
+builder
+    .Services.AddAuthentication(options =>
+    {
+        options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+        options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+        options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+    })
+    .AddJwtBearer(options =>
+    {
+        options.SaveToken = true;
+        options.RequireHttpsMetadata = false;
+        options.TokenValidationParameters = tokenValidationParams;
+        options.UseSecurityTokenValidators = true;
+    });
 
+// generic services
 builder.Services.AddAuthorization();
 
 var app = builder.Build();
