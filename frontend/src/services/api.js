@@ -171,3 +171,4 @@ export async function savePlan(plan) {
 export async function deletePlan(id) {
   return http(`/plans/${id}`, { method: "DELETE" });
 }
+
