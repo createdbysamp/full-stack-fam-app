@@ -3,7 +3,7 @@ const BASE = import.meta.env.VITE_API_BASE || "http://localhost:5000";
 const STORAGE = {
   token: "token",
   refreshToken: "refreshToken",
-  expiresAt: "expiresAt", 
+  expiresAt: "expiresAt",
   userName: "userName",
 };
 
@@ -39,7 +39,7 @@ function authHeaders() {
 }
 
 // refresh flow
-let refreshing = null; 
+let refreshing = null;
 
 async function refreshIfNeeded() {
   const session = getSession();
@@ -48,31 +48,46 @@ async function refreshIfNeeded() {
   if (!isExpiredOrNear(session.expiresAt)) return; // token good
 
   if (!refreshing) {
-    refreshing = (async ()=> {
+    refreshing = (async () => {
       const res = await fetch(`${BASE}/auth/refresh`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ token: session.token, refreshToken: session.refreshToken }),
+        body: JSON.stringify({
+          token: session.token,
+          refreshToken: session.refreshToken,
+        }),
       });
       if (!res.ok) {
         refreshing = null;
         throw new Error("Refresh failed");
       }
       const data = await res.json(); // { token, refreshToken, expiresAt }
-      setSession({ token: data.token, refreshToken: data.refreshToken, expiresAt: data.expiresAt });
+      setSession({
+        token: data.token,
+        refreshToken: data.refreshToken,
+        expiresAt: data.expiresAt,
+      });
       refreshing = null;
     })();
   }
   return refreshing;
 }
 
-async function http(path, { method = "GET", body, headers = {} } = {}, retry = true) {
+async function http(
+  path,
+  { method = "GET", body, headers = {} } = {},
+  retry = true
+) {
   await refreshIfNeeded();
 
   // attempt request
   let res = await fetch(`${BASE}${path}`, {
     method,
-    headers: { "Content-Type": "application/json", ...authHeaders(), ...headers },
+    headers: {
+      "Content-Type": "application/json",
+      ...authHeaders(),
+      ...headers,
+    },
     body: body ? JSON.stringify(body) : undefined,
   });
 
@@ -82,7 +97,11 @@ async function http(path, { method = "GET", body, headers = {} } = {}, retry = t
       await refreshIfNeeded();
       res = await fetch(`${BASE}${path}`, {
         method,
-        headers: { "Content-Type": "application/json", ...authHeaders(), ...headers },
+        headers: {
+          "Content-Type": "application/json",
+          ...authHeaders(),
+          ...headers,
+        },
         body: body ? JSON.stringify(body) : undefined,
       });
     } catch {
@@ -102,14 +121,24 @@ async function http(path, { method = "GET", body, headers = {} } = {}, retry = t
 // auth endpoints
 export async function registerUser({ userName, email, password }) {
   // backend expects { UserName, Email, Password }
-  return http("/auth/register", { method: "POST", body: { UserName: userName, Email: email, Password: password }});
-
+  return http("/auth/register", {
+    method: "POST",
+    body: { UserName: userName, Email: email, Password: password },
+  });
 }
 
 export async function loginUser({ userName, password }) {
   // backend expects { UserName, Password }, and returns { token, refreshToken, expiresAt }
-  const data = await http("/auth/login", { method: "POST", body: { UserName: userName, Password: password } });
-  setSession({ token: data.token, refreshToken: data.refreshToken, expiresAt: data.expiresAt, userName });
+  const data = await http("/auth/login", {
+    method: "POST",
+    body: { UserName: userName, Password: password },
+  });
+  setSession({
+    token: data.token,
+    refreshToken: data.refreshToken,
+    expiresAt: data.expiresAt,
+    userName,
+  });
   return data;
 }
 
@@ -118,7 +147,7 @@ export function logoutUser() {
 }
 
 export async function authPing() {
-  return http("/auth/protected")
+  return http("/auth/protected");
 }
 
 // ai endpoints ( will adjust if needed )
@@ -142,3 +171,4 @@ export async function savePlan(plan) {
 export async function deletePlan(id) {
   return http(`/plans/${id}`, { method: "DELETE" });
 }
+
