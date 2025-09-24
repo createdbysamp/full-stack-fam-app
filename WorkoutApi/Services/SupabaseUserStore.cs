@@ -12,12 +12,9 @@ public class SupabaseUserStore : IUserPasswordStore<AppUser>
     public SupabaseUserStore(Client client)
     {
         _client = client;
-        
     }
-    
-    public void Dispose()
-    {
-    }
+
+    public void Dispose() { }
 
     public Task<string> GetUserIdAsync(AppUser user, CancellationToken cancellationToken)
     {
@@ -29,22 +26,36 @@ public class SupabaseUserStore : IUserPasswordStore<AppUser>
         return Task.FromResult(user.UserName);
     }
 
-    public Task SetUserNameAsync(AppUser user, string? userName, CancellationToken cancellationToken)
+    public Task SetUserNameAsync(
+        AppUser user,
+        string? userName,
+        CancellationToken cancellationToken
+    )
     {
-        if (userName == null) throw new ArgumentException("Username was missing in SetUserNameAsync");
+        if (userName == null)
+            throw new ArgumentException("Username was missing in SetUserNameAsync");
         user.UserName = userName;
         return Task.CompletedTask;
     }
 
-    public Task<string?> GetNormalizedUserNameAsync(AppUser user, CancellationToken cancellationToken)
+    public Task<string?> GetNormalizedUserNameAsync(
+        AppUser user,
+        CancellationToken cancellationToken
+    )
     {
         return Task.FromResult(user.UserName.ToUpper());
     }
 
-    public Task SetNormalizedUserNameAsync(AppUser user, string? normalizedName, CancellationToken cancellationToken)
+    public Task SetNormalizedUserNameAsync(
+        AppUser user,
+        string? normalizedName,
+        CancellationToken cancellationToken
+    )
     {
         if (normalizedName == null)
-            throw new ArgumentException($"normalizedName was null in {nameof(SetNormalizedUserNameAsync)}");
+            throw new ArgumentException(
+                $"normalizedName was null in {nameof(SetNormalizedUserNameAsync)}"
+            );
         user.NormalizedUserName = normalizedName;
         return Task.CompletedTask;
     }
@@ -68,10 +79,11 @@ public class SupabaseUserStore : IUserPasswordStore<AppUser>
             .From<DbUser>()
             .Where(u => u.UserName == user.UserName)
             .Single(cancellationToken);
-            
-        if (userToUpdate == null) throw new ArgumentNullException(nameof(DbUser), "User not found");
 
-        userToUpdate.UserName =  user.UserName;
+        if (userToUpdate == null)
+            throw new ArgumentNullException(nameof(DbUser), "User not found");
+
+        userToUpdate.UserName = user.UserName;
         userToUpdate.Email = user.Email;
         await userToUpdate.Update<DbUser>(cancellationToken);
         return IdentityResult.Success;
@@ -83,7 +95,8 @@ public class SupabaseUserStore : IUserPasswordStore<AppUser>
             .From<DbUser>()
             .Where(u => u.UserName == user.UserName)
             .Single(cancellationToken);
-        if (userFromDb == null) return IdentityResult.Failed();
+        if (userFromDb == null)
+            return IdentityResult.Failed();
         await _client.From<DbUser>().Delete(userFromDb, null, cancellationToken);
         return IdentityResult.Success;
     }
@@ -102,19 +115,23 @@ public class SupabaseUserStore : IUserPasswordStore<AppUser>
             Email = user.Email,
             PasswordHash = user.PasswordHash,
         };
-        
+
         return appUser;
     }
 
-    public async Task<AppUser?> FindByNameAsync(string normalizedUserName, CancellationToken cancellationToken)
+    public async Task<AppUser?> FindByNameAsync(
+        string normalizedUserName,
+        CancellationToken cancellationToken
+    )
     {
         var user = await _client
             .From<DbUser>()
             .Where(u => u.NormalizedUserName == normalizedUserName)
             .Single(cancellationToken);
 
-        if (user == null) return null;
-        
+        if (user == null)
+            return null;
+
         var appUser = new AppUser
         {
             Id = user.Id,
@@ -125,7 +142,11 @@ public class SupabaseUserStore : IUserPasswordStore<AppUser>
         return appUser;
     }
 
-    public Task SetPasswordHashAsync(AppUser user, string? passwordHash, CancellationToken cancellationToken)
+    public Task SetPasswordHashAsync(
+        AppUser user,
+        string? passwordHash,
+        CancellationToken cancellationToken
+    )
     {
         user.PasswordHash = passwordHash;
         return Task.CompletedTask;
