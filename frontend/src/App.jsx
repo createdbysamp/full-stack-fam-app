@@ -7,6 +7,7 @@ import Generator from './pages/Generator';
 import Plans from './pages/Plans';
 import PlanDetail from './pages/PlanDetail';;
 import ProtectedRoute from './components/ProtectedRoute';
+import Logout from './pages/Logout';
 
 export default function App() {
   return (
@@ -19,6 +20,7 @@ export default function App() {
         <Route path="/generator" element={<ProtectedRoute><Generator /></ProtectedRoute>} />
         <Route path="/plans" element={<ProtectedRoute><Plans /></ProtectedRoute>} />
         <Route path="/plans/:id" element={<ProtectedRoute><PlanDetail /></ProtectedRoute>} />
+        <Route path="/logout" element={<Logout />} />
       </Routes>
     </BrowserRouter>
   );
