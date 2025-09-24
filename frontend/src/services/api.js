@@ -142,8 +142,14 @@ export async function loginUser({ userName, password }) {
   return data;
 }
 
-export function logoutUser() {
+export async function logoutUser() {
+  const { token, refreshToken } = getSession();
+  const data = await http("/auth/logout", {
+    method: "POST",
+    body: { Token: token, RefreshToken: refreshToken },
+  });
   clearSession();
+  return data;
 }
 
 export async function authPing() {
@@ -153,12 +159,13 @@ export async function authPing() {
 // ai endpoints ( will adjust if needed )
 export async function generateWorkout(payload) {
   // Handle both string and object inputs
-  const userInput = typeof payload === 'string' ? payload : (payload.userInput || payload);
-  
+  const userInput =
+    typeof payload === "string" ? payload : payload.userInput || payload;
+
   if (!userInput) {
-    throw new Error('userInput is required');
+    throw new Error("userInput is required");
   }
-  
+
   const encodedInput = encodeURIComponent(userInput);
   return http(`/ai/workout?userInput=${encodedInput}`);
 }
@@ -179,4 +186,3 @@ export async function savePlan(plan) {
 export async function deletePlan(id) {
   return http(`/plans/${id}`, { method: "DELETE" });
 }
-
