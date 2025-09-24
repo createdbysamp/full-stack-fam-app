@@ -13,6 +13,16 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers().AddNewtonsoftJson();
 builder.Services.AddOpenApi();
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(policy =>
+    {
+        policy
+            .AllowAnyOrigin()   // Allow all origins
+            .AllowAnyMethod()   // Allow all HTTP methods
+            .AllowAnyHeader();  // Allow all headers
+    });
+});
 
 builder.Services.AddSingleton<Client>(p =>
 {
@@ -81,6 +91,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+app.UseCors();
 app.MapControllers();
 
 app.UseAuthentication();
