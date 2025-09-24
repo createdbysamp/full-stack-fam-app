@@ -44,7 +44,7 @@ var tokenValidationParams = new TokenValidationParameters
     
     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]!)),
     
-    ValidateLifetime = false,
+    ValidateLifetime = true,
     
     ClockSkew = TimeSpan.Zero, // Access tokens by default has a lifetime of 5 minutes, and we need to override it here.
     
