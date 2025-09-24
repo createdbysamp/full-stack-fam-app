@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "/Users/peezyg/Desktop/full-stack-fam-app/WorkoutApi/WorkoutApi.csproj": {}
+    "/mnt/sda2/Projects/fam/WorkoutApi/WorkoutApi.csproj": {}
   },
   "projects": {
-    "/Users/peezyg/Desktop/full-stack-fam-app/WorkoutApi/WorkoutApi.csproj": {
+    "/mnt/sda2/Projects/fam/WorkoutApi/WorkoutApi.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/peezyg/Desktop/full-stack-fam-app/WorkoutApi/WorkoutApi.csproj",
+        "projectUniqueName": "/mnt/sda2/Projects/fam/WorkoutApi/WorkoutApi.csproj",
         "projectName": "WorkoutApi",
-        "projectPath": "/Users/peezyg/Desktop/full-stack-fam-app/WorkoutApi/WorkoutApi.csproj",
-        "packagesPath": "/Users/peezyg/.nuget/packages/",
-        "outputPath": "/Users/peezyg/Desktop/full-stack-fam-app/WorkoutApi/obj/",
+        "projectPath": "/mnt/sda2/Projects/fam/WorkoutApi/WorkoutApi.csproj",
+        "packagesPath": "/home/iq/.nuget/packages/",
+        "outputPath": "/mnt/sda2/Projects/fam/WorkoutApi/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "/Users/peezyg/.nuget/NuGet/NuGet.Config"
+          "/home/iq/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net9.0"
@@ -38,7 +38,7 @@
           "auditLevel": "low",
           "auditMode": "direct"
         },
-        "SdkAnalysisLevel": "9.0.300"
+        "SdkAnalysisLevel": "9.0.100"
       },
       "frameworks": {
         "net9.0": {
@@ -47,6 +47,10 @@
             "BCrypt.Net-Next": {
               "target": "Package",
               "version": "[4.0.3, )"
+            },
+            "Google_GenerativeAI": {
+              "target": "Package",
+              "version": "[3.2.0, )"
             },
             "Microsoft.AspNetCore.Authentication.JwtBearer": {
               "target": "Package",
@@ -59,6 +63,10 @@
             "Microsoft.AspNetCore.OpenApi": {
               "target": "Package",
               "version": "[9.0.8, )"
+            },
+            "Npgsql": {
+              "target": "Package",
+              "version": "[9.0.3, )"
             },
             "supabase": {
               "target": "Package",
@@ -76,6 +84,12 @@
           ],
           "assetTargetFallback": true,
           "warn": true,
+          "downloadDependencies": [
+            {
+              "name": "Microsoft.AspNetCore.App.Ref",
+              "version": "[9.0.8, 9.0.8]"
+            }
+          ],
           "frameworkReferences": {
             "Microsoft.AspNetCore.App": {
               "privateAssets": "none"
@@ -84,7 +98,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/9.0.305/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/9.0.109/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

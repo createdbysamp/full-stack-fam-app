@@ -82,7 +82,7 @@ public class AuthController : ControllerBase
 
         if (user != null && await _userManager.CheckPasswordAsync(user, vm.Password))
         {
-            var tokenValue = await GenerateJwtTokenAsync(user, "");
+            var tokenValue = await GenerateJwtTokenAsync(user, "", "");
             return Ok(tokenValue);
         }
 
@@ -91,10 +91,11 @@ public class AuthController : ControllerBase
 
     private async Task<AuthResultViewModel> GenerateJwtTokenAsync(
         AppUser user,
-        string existingRefreshToken
+        string existingRefreshToken,
+        string existingJti
     )
     {
-        var jti = Guid.NewGuid().ToString();
+        var jti = string.IsNullOrEmpty(existingJti) ? Guid.NewGuid().ToString() : existingJti;
         var authClaims = new Dictionary<string, object>
         {
             { JwtRegisteredClaimNames.Sub, user.Id.ToString() },
@@ -112,7 +113,7 @@ public class AuthController : ControllerBase
         {
             Issuer = _configuration["Jwt:ValidIssuer"]!,
             Audience = _configuration["Jwt:ValidAudience"],
-            Expires = DateTime.UtcNow.AddMinutes(10), // typically 5 - 10 mins
+            Expires = DateTime.UtcNow.AddMinutes(1), // typically 5 - 10 mins
             Claims = authClaims,
             SigningCredentials = new SigningCredentials(
                 authSigningKey,
@@ -137,7 +138,7 @@ public class AuthController : ControllerBase
             };
             await _client.From<RefreshToken>().Insert(refreshToken);
         }
-
+        
         var response = new AuthResultViewModel
         {
             Token = jwtToken,
@@ -171,7 +172,6 @@ public class AuthController : ControllerBase
     private async Task<AuthResultViewModel?> VerifyAndGenerateTokenAsync(RefreshTokenViewModel vm)
     {
         var jwtTokenHandler = new JsonWebTokenHandler();
-
         // validation
         // 1: Check JWT Token Format
         // Note: We do not care about validating the lifetime of the token here
@@ -259,7 +259,7 @@ public class AuthController : ControllerBase
             Email = dbUserData.Email,
         };
 
-        return await GenerateJwtTokenAsync(appUserData, vm.RefreshToken);
+        return await GenerateJwtTokenAsync(appUserData, vm.RefreshToken, dbRefreshToken.JwtId);
     }
 
     [HttpGet("protected")]
