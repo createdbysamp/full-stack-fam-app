@@ -164,7 +164,7 @@ export async function generateWorkout(payload) {
 }
 
 export async function generateMeal(payload) {
-  return http("/ai/meal", { method: "POST", body: payload });
+  return http("/ai/meal", { method: "GET", body: payload });
 }
 
 // plans and history
