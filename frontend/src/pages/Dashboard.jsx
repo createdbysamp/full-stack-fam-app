@@ -4,7 +4,7 @@ import { fetchHistory } from '../services/api';
 import { Link } from 'react-router-dom';
 
 const Dashboard = () => {
-    const [history, setHistory] = useState([]);
+    const [history, setHistory] = useState({ workouts: []});
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
@@ -19,7 +19,7 @@ const Dashboard = () => {
             <Navbar />
             <div className="container py-4">
                 <div className="d-flex justify-content-between align-items-center mb-3">
-                    <h3 className="text-white mb-0">Welcome back, @username!</h3>
+                    <h3 className="text-white mb-0">Welcome back, @{localStorage.getItem("userName") || "user!"}</h3>
                     <Link to="/generator" className="btn btn-light">Get Started</Link>
                 </div>
                 <img src="/images/login-illustration.jpg" alt="dumbbells" className="img-fluid rounded" />
@@ -27,9 +27,9 @@ const Dashboard = () => {
                     <div className="card-header bg-white fw-semibold">Your progress</div>
                     <div className="card-body">
                         {loading && <div className="text-muted">Loading...</div>}
-                        {!loading && history.length === 0 && <div className="text-dark">No workouts yet</div>}
+                        {!loading && history.length === 0 && <div className="text-muted">No workouts yet</div>}
                         <div className="row g-3">
-                            {history.map(item => (
+                            {history.workouts.map(item => (
                                 <div className="col-12 col-md-6" key={item.id}>
                                     <div className="border rounded p-3 d-flex justify-content-between align-items-center h-100">
                                         <div>
