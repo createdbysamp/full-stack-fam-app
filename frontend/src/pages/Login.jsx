@@ -62,7 +62,7 @@ export default function Login() {
             <p className="text-muted text-center mt-3">
             Don't have an account? <Link to="/register">Sign Up</Link>
             </p>
-            <img src="/images/workout-bar.jpg" alt="dumbbells" className="img-fluid rounded" />
+            <img src="/images/pink-dude.jpg" alt="guy lifting" className="img-fluid rounded w-50 mx-auto" />
         </div>
         </div>
     );

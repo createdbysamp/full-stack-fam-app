@@ -15,6 +15,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 
 Console.WriteLine(builder.Configuration["GoogleAI:ApiKey"]);
+
 // GOOGLE API SERVICES
 var apiKey = builder.Configuration["GoogleAI:ApiKey"];
 builder.Services.AddSingleton<GoogleAIService>();

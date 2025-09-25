@@ -42,6 +42,7 @@ export default function Credits() {
                             Stack: Vite + React + Bootstrap + .NET + Supabase + AI
                         </p>
                     </div>
+                    <img src="/images/nice-words.jpg" alt="words" className="img-fluid rounded w-100 mx-auto" />
                 </div>
             </div>
         </div>

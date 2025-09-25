@@ -76,6 +76,7 @@ export default function Generator() {
                             </div>
                         )}
                     </div>
+                    <img src="/images/blue-cycle.jpg" alt="blue" className="img-fluid rounded w-100 mx-auto" />
                 </div>
             </div>
         </div>
