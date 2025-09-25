@@ -23,9 +23,8 @@ export default function Login() {
     return (
         <div
         className="d-flex justify-content-center align-items-center min-vh-100"
-        style={{ background: "linear-gradient(135deg,#c471f5,#fa71cd)" }}
         >
-        <div className="card p-4 shadow-lg" style={{ minWidth: "400px", wdith: "100%" }}>
+        <div className="card p-4 shadow-lg" style={{ minWidth: "200px", width: "50%" }}>
             <h4 className="mb-4 text-center">Login</h4>
             {err && <div className="alert alert-danger">{err}</div>}
             <form onSubmit={handleSubmit}>
@@ -62,7 +61,7 @@ export default function Login() {
             <p className="text-muted text-center mt-3">
             Don't have an account? <Link to="/register">Sign Up</Link>
             </p>
-            <img src="/images/pink-dude.jpg" alt="guy lifting" className="img-fluid rounded w-50 mx-auto" />
+            <img src="/images/pink-dude.jpg" alt="guy lifting" className="img-fluid rounded w-75 mx-auto" />
         </div>
         </div>
     );

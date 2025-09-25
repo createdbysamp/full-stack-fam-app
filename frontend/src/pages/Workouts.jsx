@@ -24,7 +24,7 @@ export default function Workouts() {
     }
 
     return (
-        <div className="min-vh-100" style={{background: "linear-gradient(135deg,#c471f5,#fa71cd"}}>
+        <div className="min-vh-100">
             <Navbar />
             <div className="container py-4">
                 <h3 className="text-white mb-3">Your Workouts</h3>
@@ -32,8 +32,8 @@ export default function Workouts() {
                 <div className="card shadow-sm">
                     <div className="card-header bg-white fw-semibold">History</div>
                     <div className="card-body">
-                        {loading && <div className="text-muted">Loading...</div>}
-                        {!loading && items.length === 0 && <div className="text-muted">No workouts yet...</div>}
+                        {loading && <div className="text-dark">Loading...</div>}
+                        {!loading && items.length === 0 && <div className="text-dark">No workouts yet...</div>}
                         <div className="list-group">
                             {items.map(p => (
                                 <div key={p.id} className="list-group-item d-flex justify-content-between align-items-center">
