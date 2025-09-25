@@ -3,10 +3,12 @@ console.log("API BASE =", BASE);
 
 const KEY = "auth_tokens";
 
-
 export function getSession() {
-  try { return JSON.parse(localStorage.getItem(KEY) || "null"); }
-  catch { return null; }
+  try {
+    return JSON.parse(localStorage.getItem(KEY) || "null");
+  } catch {
+    return null;
+  }
 }
 function setSession(next) {
   localStorage.setItem(KEY, JSON.stringify(next));
@@ -21,7 +23,7 @@ function isExpiredOrNear(expiresAt, skewSeconds = 10) {
 }
 function authHeaders() {
   const s = getSession();
- return s?.token ? { Authorization: `Bearer ${s.token}` } : {};
+  return s?.token ? { Authorization: `Bearer ${s.token}` } : {};
 }
 
 // refresh flow
@@ -38,7 +40,10 @@ async function refreshIfNeeded() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ token: s.token, refreshToken: s.refreshToken }),
       });
-      if (!res.ok) { refreshing = null; throw new Error("Refresh failed"); }
+      if (!res.ok) {
+        refreshing = null;
+        throw new Error("Refresh failed");
+      }
       const data = await res.json(); // { token, refreshToken, expiresAt }
       setSession({ ...s, ...data });
       refreshing = null;
@@ -47,20 +52,35 @@ async function refreshIfNeeded() {
   return refreshing;
 }
 
-async function http(path, { method = "GET", body, headers = {} } = {}, retry = true) {
+async function http(
+  path,
+  { method = "GET", body, headers = {} } = {},
+  retry = true
+) {
   await refreshIfNeeded();
 
-  const doFetch = () => fetch(`${BASE}${path}`, {
-    method,
-    headers: { "Content-Type": "application/json", ...authHeaders(), ...headers },
-    body: body ? JSON.stringify(body) : undefined,
-  });
+  const doFetch = () =>
+    fetch(`${BASE}${path}`, {
+      method,
+      headers: {
+        "Content-Type": "application/json",
+        ...authHeaders(),
+        ...headers,
+      },
+      body: body ? JSON.stringify(body) : undefined,
+    });
 
   let res = await doFetch();
   if (res.status === 401 && retry) {
-    try { await refreshIfNeeded(); res = await doFetch(); } catch { /* intentionally ignore refresh errors */ }
+    try {
+      await refreshIfNeeded();
+      res = await doFetch();
+    } catch {
+      /* intentionally ignore refresh errors */
+    }
   }
-  if (!res.ok) throw new Error((await res.text().catch(()=> "")) || `HTTP ${res.status}`);
+  if (!res.ok)
+    throw new Error((await res.text().catch(() => "")) || `HTTP ${res.status}`);
 
   const ct = res.headers.get("content-type") || "";
   return ct.includes("application/json") ? res.json() : res.text();
@@ -68,40 +88,58 @@ async function http(path, { method = "GET", body, headers = {} } = {}, retry = t
 
 // AUTH
 export async function registerUser({ userName, email, password }) {
-  return http("/auth/register", { method: "POST", body: { UserName: userName, Email: email, Password: password }});
+  return http("/auth/register", {
+    method: "POST",
+    body: { UserName: userName, Email: email, Password: password },
+  });
 }
 export async function loginUser({ userName, password }) {
-  const data = await http("/auth/login", { method: "POST", body: { UserName: userName, Password: password }});
-  setSession({ ...data, userName }); 
+  const data = await http("/auth/login", {
+    method: "POST",
+    body: { UserName: userName, Password: password },
+  });
+  setSession({ ...data, userName });
   return data;
 }
 export async function logoutUser() {
   const s = getSession();
   try {
-    await http("/auth/logout", { method: "POST", body: { Token: s?.token, RefreshToken: s?.refreshToken } });
+    await http("/auth/logout", {
+      method: "POST",
+      body: { Token: s?.token, RefreshToken: s?.refreshToken },
+    });
   } catch {
     // intentionally ignore refresh errors
   }
   clearSession();
 }
 
-export async function authPing() { return http("/auth/protected"); }
+export async function authPing() {
+  return http("/auth/protected");
+}
 
 // AI
 export async function generateWorkout(payload) {
-  const userInput = typeof payload === "string" ? payload : payload.userInput || payload;
+  const userInput =
+    typeof payload === "string" ? payload : payload.userInput || payload;
   if (!userInput) throw new Error("userInput is required");
   const encoded = encodeURIComponent(userInput);
   return http(`/ai/workout?userInput=${encoded}`);
 }
 
 // WORKOUTs
-export async function fetchHistory() { return http("/workouts"); }
-export async function getworkout(id) { return http(`/workouts/${id}`); }
-export async function saveworkout(w) { return http("/workouts", { method: "POST", body: w }); }
-export async function deleteWorkout(id) { return http(`/workouts/${id}`, { method: "DELETE" }); }
-
-
+export async function fetchHistory() {
+  return http("/workouts");
+}
+export async function getworkout(id) {
+  return http(`/workouts/${id}`);
+}
+export async function saveworkout(w) {
+  return http("/workouts/create", { method: "POST", body: w });
+}
+export async function deleteWorkout(id) {
+  return http(`/workouts/${id}`, { method: "POST" });
+}
 
 // const STORAGE = {
 //   token: "token",

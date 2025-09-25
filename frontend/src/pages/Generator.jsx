@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import Navbar from '../components/Navbar';
-import { generateWorkout, saveworkout } from '../services/api';
+import { generateWorkout, saveworkout, getSession } from '../services/api';
 import WorkoutDetails from '../components/WorkoutDetails';
 
 export default function Generator() {
@@ -29,7 +29,14 @@ export default function Generator() {
   async function handleSave() {
     if (!output) return;
     try {
-      await saveworkout({ type, prompt, output });
+        let unparsedJson = JSON.stringify(output);
+        await saveworkout(
+            {
+                title: output.title,
+                exercises: unparsedJson,
+                userId: getSession()["currentUserId"]
+            }
+        )
       alert("Saved! Check workouts page");
     } catch {
       alert("Failed to save");
@@ -63,7 +70,7 @@ export default function Generator() {
             <Navbar />
             <div className="container py-4">
                 <div className="card shadow-sm mx-auto" style={{maxWidth: 820}}>
-                    <div className="card-header bg-white fw-semibold">Hey, @username, what's up?</div>
+                    <div className="card-header bg-white fw-semibold">Hey, @{getSession()["userName"]}, what's up?</div>
                     <div className="card-body">
                         <form onSubmit={handleSubmit} className="row g-3">
                             <div className="col-md-9">
