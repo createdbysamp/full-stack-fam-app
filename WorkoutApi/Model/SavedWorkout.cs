@@ -9,12 +9,15 @@ public class SavedWorkout : BaseModel
     [PrimaryKey("id")]
     public int Id { get; set; }
 
-    [Column("content")]
-    public string Content { get; set; } = string.Empty;
-    
+    [Column("exercise")]
+    public string Exercise { get; set; } = string.Empty;
+
+    [Column("title")]
+    public string Title { get; set; } = string.Empty;
+
     [Column("user_id")]
     public int UserId { get; set; }
-    
+
     [Reference(typeof(DbUser))]
     public DbUser User { get; set; }
 }
