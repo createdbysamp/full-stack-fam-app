@@ -33,7 +33,7 @@ public class WorkoutController : ControllerBase
         // Get workouts based on User Id
         var workouts = await _client
             .From<SavedWorkout>()
-            .Select("id, content, user:users(id)")
+            .Select("id, title, exercise, user:users(id)")
             .Filter("user_id", Constants.Operator.Equals, currentUserId)
             .Get();
 
@@ -48,7 +48,8 @@ public class WorkoutController : ControllerBase
             var w = new SavedWorkoutViewModel
             {
                 Id = workout.Id,
-                Content = workout.Content,
+                Title = workout.Title,
+                Exercise = workout.Exercise,
                 UserId = workout.User.Id,
             };
             vm.Workouts.Add(w);
@@ -75,7 +76,8 @@ public class WorkoutController : ControllerBase
         // No specific authorization
         var savedWorkout = new SavedWorkout
         {
-            Content = vm.Content,
+            Title = vm.Title,
+            Exercise = vm.Exercise,
             UserId = Int32.Parse(currentUserId),
         };
 
@@ -94,7 +96,7 @@ public class WorkoutController : ControllerBase
 
         var workout = await _client
             .From<SavedWorkout>()
-            .Select("id, content, user:users(id)")
+            .Select("id, title, exercise, user:users(id)")
             .Filter("id", Constants.Operator.Equals, workoutId)
             .Single();
 
@@ -107,7 +109,8 @@ public class WorkoutController : ControllerBase
         var vm = new SavedWorkoutViewModel
         {
             UserId = workout.User.Id,
-            Content = workout.Content,
+            Title = workout.Title,
+            Exercise = workout.Exercise,
             Id = workout.Id,
         };
         return Ok(vm);
@@ -134,7 +137,8 @@ public class WorkoutController : ControllerBase
             return Unauthorized("User not allowed to do this action");
 
         // Update
-        existing.Content = vm.Content;
+        existing.Title = vm.Title;
+        existing.Exercise = vm.Exercise;
 
         // Save
         await existing.Update<SavedWorkout>();
