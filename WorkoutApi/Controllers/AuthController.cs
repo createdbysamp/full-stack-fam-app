@@ -101,8 +101,7 @@ public class AuthController : ControllerBase
             { JwtRegisteredClaimNames.Sub, user.Id.ToString() },
             { JwtRegisteredClaimNames.Jti, jti },
             { ClaimTypes.Name, user.UserName },
-            { JwtRegisteredClaimNames.Email, user.Email }
-
+            { JwtRegisteredClaimNames.Email, user.Email },
         };
 
         var authSigningKey = new SymmetricSecurityKey(
@@ -113,7 +112,7 @@ public class AuthController : ControllerBase
         {
             Issuer = _configuration["Jwt:ValidIssuer"]!,
             Audience = _configuration["Jwt:ValidAudience"],
-            Expires = DateTime.UtcNow.AddMinutes(1), // typically 5 - 10 mins
+            Expires = DateTime.UtcNow.AddDays(7), // typically 5 - 10 mins
             Claims = authClaims,
             SigningCredentials = new SigningCredentials(
                 authSigningKey,
@@ -138,7 +137,7 @@ public class AuthController : ControllerBase
             };
             await _client.From<RefreshToken>().Insert(refreshToken);
         }
-        
+
         var response = new AuthResultViewModel
         {
             Token = jwtToken,
@@ -178,8 +177,10 @@ public class AuthController : ControllerBase
         // If it's expired, we want to refresh it.
         var refreshValidationParameters = _tokenValidationParameters.Clone();
         refreshValidationParameters.ValidateLifetime = false;
-        var tokenInVerification = await jwtTokenHandler
-            .ValidateTokenAsync(vm.Token, refreshValidationParameters);
+        var tokenInVerification = await jwtTokenHandler.ValidateTokenAsync(
+            vm.Token,
+            refreshValidationParameters
+        );
 
         JsonWebToken validatedToken;
 

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import Navbar from '../components/Navbar';
-import { generateWorkout, generateMeal, savePlan } from '../services/api';
+import { generateWorkout, saveworkout } from '../services/api';
 
 export default function Generator() {
     const [type, setType] = useState("workout");
@@ -16,22 +16,20 @@ export default function Generator() {
         setLoading(true);
         setLoading(true);
         try {
-            const res = type === "workout"
-            ? await generateWorkout({ prompt })
-            : await generateMeal({ prompt });
+            const res = await generateWorkout({ prompt })
             setOutput(res);
-        } catch {
-            setError("Failed to generate.");
-        } finally {
-            setLoading(false);
-        }
+            } catch {
+                setError("Failed to generate.");
+            } finally {
+                setLoading(false);
+            }
     }
 
     async function handleSave() {
         if (!output) return;
         try {
-            await savePlan({ type, prompt, output });
-            alert("Saved! Check Plans page");
+            await saveworkout({ type, prompt, output });
+            alert("Saved! Check workouts page");
         } catch {
             alert("Failed to save");
         }
@@ -48,12 +46,11 @@ export default function Generator() {
                             <div className="col-md-9">
                                 <select className="form-select" value={type} onChange={e=>setType(e.target.value)}>
                                     <option value="workout">Workout</option>
-                                    <option value="meal">Meal Plan</option>
                                 </select>
                             </div>
                             <div className="col-md-9">
                                 <input className="form-control"
-                                    placeholder="Build me a workout plan..."
+                                    placeholder="Build me a workout workout..."
                                     value={prompt} onChange={e=>setPrompt(e.target.value)} />
                             </div>
                             <div className="col-12">
@@ -68,13 +65,13 @@ export default function Generator() {
                         {loading && <div className="text-muted">Generating...</div>}
                         {!loading && output && (
                             <div>
-                                <h6 className="fw-semibold">AI Plan</h6>
+                                <h6 className="fw-semibold">AI workout</h6>
                                 <pre className="bg-light p-3 rounded small" style={{whiteSpace: 'pre-wrap'}}>
                                     {typeof output === 'string' ? output : JSON.stringify(output, null, 2)}
                                 </pre>
                                 <div className="d-flex gap-2">
                                     <button className="btn btn-outline-secondary btn-sm">Refine</button>
-                                    <button className="btn btn-outline-success btn-sm" onCLick={handleSave}>Save</button>
+                                    <button className="btn btn-outline-success btn-sm" onClick={handleSave}>Save</button>
                                 </div>
                             </div>
                         )}

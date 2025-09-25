@@ -31,7 +31,7 @@ public class AiController : ControllerBase
     // {
     //     var prompt =
     //         $"Generate only 1 SQL query based on these parameters: {question}. The table to use is {full_table_name}. The columns you will use are 'category', 'type', 'subtype', & 'subtype_two'. Use only the columns needed to answer the question, not all of the available columns. Limit data as much as possible, and follow strictly Postgres syntax."
-    //         + $"Always output plain SQL only, no extra text or explanation"
+    //         + $"Always output plain SQL only, no extra text or exworkoutation"
     //         + $"The value of sqlQuery must be plain SQL only, no formatting or code fences.";
     //     var response = await _googleAi.GenerateContentAsync(prompt);
     //     // Console.WriteLine($"raw RESPONSE: {response}");
@@ -186,7 +186,7 @@ public class AiController : ControllerBase
                     GeneratedSQL = cleanSql,
                     ExerciseData = exerciseData,
                     // RawWorkout = workout,
-                    WorkoutPlan = jsonWorkout,
+                    Workoutworkout = jsonWorkout,
                     Pipeline = "User Input → Agent0 (SQL) → PostgreSQL → Agent2 (Workout Generation)!!",
                 }
             );

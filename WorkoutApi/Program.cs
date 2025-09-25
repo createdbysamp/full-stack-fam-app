@@ -50,6 +50,18 @@ builder.Services.AddSingleton<Client>(p =>
     return supabase;
 });
 
+var cors = "_vite";
+builder.Services.AddCors(o =>
+    o.AddPolicy(
+        cors,
+        p =>
+            p.WithOrigins("http://localhost:5173")
+                .AllowAnyHeader()
+                .AllowAnyMethod()
+                .AllowCredentials()
+    )
+);
+
 // user validation services
 builder
     .Services.AddIdentityCore<AppUser>()
@@ -103,11 +115,19 @@ if (app.Environment.IsDevelopment())
     app.MapOpenApi();
 }
 
-app.UseHttpsRedirection();
+// app.UseHttpsRedirection();
+if (!app.Environment.IsDevelopment())
+{
+    app.UseHttpsRedirection();
+}
+
 app.UseCors();
 app.MapControllers();
 
 app.UseAuthentication();
 app.UseAuthorization();
+
+app.MapGet("/", () => Results.Ok(new { ok = true, service = "Workout API" }));
+app.MapGet("/healthz", () => Results.Ok(new { status = "healthy" }));
 
 app.Run();
