@@ -50,18 +50,6 @@ builder.Services.AddSingleton<Client>(p =>
     return supabase;
 });
 
-// var cors = "_vite";
-// builder.Services.AddCors(o =>
-//     o.AddPolicy(
-//         cors,
-//         p =>
-//             p.WithOrigins("http://localhost:5173")
-//                 .AllowAnyHeader()
-//                 .AllowAnyMethod()
-//                 .AllowCredentials()
-//     )
-// );
-
 // user validation services
 builder
     .Services.AddIdentityCore<AppUser>()
@@ -116,6 +104,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
 // if (!app.Environment.IsDevelopment())
 // {
 //     app.UseHttpsRedirection();
