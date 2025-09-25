@@ -3,7 +3,8 @@ console.log("API BASE =", BASE);
 
 const KEY = "auth_tokens";
 
-function getSession() {
+
+export function getSession() {
   try { return JSON.parse(localStorage.getItem(KEY) || "null"); }
   catch { return null; }
 }

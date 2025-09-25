@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import Navbar from '../components/Navbar';
 import { generateWorkout, saveworkout } from '../services/api';
+import WorkoutDetails from '../components/WorkoutDetails';
 
 export default function Generator() {
     const [type, setType] = useState("workout");
@@ -16,7 +17,7 @@ export default function Generator() {
         setLoading(true);
         setLoading(true);
         try {
-            const res = await generateWorkout(prompt)
+            const res = await generateWorkout(prompt).then(res => JSON.parse(res))
             setOutput(res);
             } catch {
                 setError("Failed to generate.");
@@ -35,27 +36,27 @@ export default function Generator() {
     }
   }
 
-  async function displayWorkout() {
-    <div className="card">
-      <div className="card-title">{output.title}</div>
-      <div className="card-body">
-        {Array(output.exercises).map((values) => {
-          return values.exercises.map((val) => {
-            return (
-              <div>
-                <span>Exercise name: {val.name}</span>
-                <span>Sets: {val.sets}</span>
-                <span>Reps: {val.reps}</span>
-                <span>Description: {val.description}</span>
-                <span>Instructions: {val.instructions}</span>
-              </div>
-            );
-          });
-        })}
-      </div>
-      <div className="card-footer">{output.exercises}</div>
-    </div>;
-  }
+//   async function displayWorkout() {
+//     <div className="card">
+//       <div className="card-title">{output.title}</div>
+//       <div className="card-body">
+//         {Array(output.exercises).map((values) => {
+//           return values.exercises.map((val) => {
+//             return (
+//               <div>
+//                 <span>Exercise name: {val.name}</span>
+//                 <span>Sets: {val.sets}</span>
+//                 <span>Reps: {val.reps}</span>
+//                 <span>Description: {val.description}</span>
+//                 <span>Instructions: {val.instructions}</span>
+//               </div>
+//             );
+//           });
+//         })}
+//       </div>
+//       <div className="card-footer">{output.exercises}</div>
+//     </div>;
+//   }
 
     return (
         <div className="min-vh-100">
@@ -89,7 +90,7 @@ export default function Generator() {
                             <div>
                                 <h6 className="fw-semibold">AI workout</h6>
                                 <pre className="bg-light p-3 rounded small" style={{whiteSpace: 'pre-wrap'}}>
-                                    {typeof output === 'string' ? output : JSON.stringify(output, null, 2)}
+                                  <WorkoutDetails parsedExercise={output} />
                                 </pre>
                                 <div className="d-flex gap-2">
                                     <button className="btn btn-outline-secondary btn-sm">Refine</button>
