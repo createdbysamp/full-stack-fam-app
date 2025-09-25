@@ -33,7 +33,7 @@ public class WorkoutController : ControllerBase
         // Get workouts based on User Id
         var workouts = await _client
             .From<SavedWorkout>()
-            .Select("id, title, exercise, user:users(id)")
+            .Select("id, title, exercise, created_at, user:users(id)")
             .Filter("user_id", Constants.Operator.Equals, currentUserId)
             .Get();
 
@@ -50,6 +50,7 @@ public class WorkoutController : ControllerBase
                 Id = workout.Id,
                 Title = workout.Title,
                 Exercise = workout.Exercise,
+                createdAt = workout.CreatedAt,
                 UserId = workout.User.Id,
             };
             vm.Workouts.Add(w);
@@ -78,6 +79,7 @@ public class WorkoutController : ControllerBase
         {
             Title = vm.Title,
             Exercise = vm.Exercise,
+            CreatedAt = vm.createdAt,
             UserId = Int32.Parse(currentUserId),
         };
 
@@ -96,7 +98,7 @@ public class WorkoutController : ControllerBase
 
         var workout = await _client
             .From<SavedWorkout>()
-            .Select("id, title, exercise, user:users(id)")
+            .Select("id, title, exercise, created_at, user:users(id)")
             .Filter("id", Constants.Operator.Equals, workoutId)
             .Single();
 
@@ -111,6 +113,7 @@ public class WorkoutController : ControllerBase
             UserId = workout.User.Id,
             Title = workout.Title,
             Exercise = workout.Exercise,
+            createdAt = workout.CreatedAt,
             Id = workout.Id,
         };
         return Ok(vm);

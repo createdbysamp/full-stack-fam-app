@@ -20,4 +20,7 @@ public class SavedWorkout : BaseModel
 
     [Reference(typeof(DbUser))]
     public DbUser User { get; set; }
+
+    [Column("created_at")]
+    public DateTime CreatedAt { get; set; } = DateTime.Now;
 }
