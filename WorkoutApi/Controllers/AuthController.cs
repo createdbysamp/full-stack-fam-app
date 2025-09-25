@@ -83,6 +83,7 @@ public class AuthController : ControllerBase
         if (user != null && await _userManager.CheckPasswordAsync(user, vm.Password))
         {
             var tokenValue = await GenerateJwtTokenAsync(user, "", "");
+            tokenValue.currentUserId = user.Id;
             return Ok(tokenValue);
         }
 

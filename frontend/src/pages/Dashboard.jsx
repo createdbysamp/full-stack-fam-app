@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import Navbar from '../components/Navbar';
-import { fetchHistory } from '../services/api';
+import { fetchHistory, getSession } from '../services/api';
 import { Link } from 'react-router-dom';
 
 const Dashboard = () => {
@@ -19,7 +19,7 @@ const Dashboard = () => {
             <Navbar />
             <div className="container py-4">
                 <div className="d-flex justify-content-between align-items-center mb-3">
-                    <h3 className="text-white mb-0">Welcome back, @{localStorage.getItem("userName") || "user!"}</h3>
+                    <h3 className="text-white mb-0">Welcome back, @{getSession()["userName"] || "user!"}</h3>
                     <Link to="/generator" className="btn btn-light">Get Started</Link>
                 </div>
                 <img src="/images/login-illustration.jpg" alt="dumbbells" className="img-fluid rounded" />

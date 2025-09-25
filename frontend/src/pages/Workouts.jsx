@@ -39,7 +39,7 @@ export default function Workouts() {
                                 <div key={p.id} className="list-group-item d-flex justify-content-between align-items-center">
                                     <div>
                                         <span className="badge bg-secondary me-2 text-uppercase">{p.type}</span>
-                                        <span className="fw-semibold me-2">{p.summary || p.prompt || "Workout"}</span>
+                                        <span className="fw-semibold me-2">{p.title || "Workout"}</span>
                                         <small className="text-muted">{new Date(p.createdAt).toLocaleString()}</small>
                                     </div>
                                     <div>
