@@ -33,7 +33,7 @@ public class WorkoutController : ControllerBase
         // Get workouts based on User Id
         var workouts = await _client
             .From<SavedWorkout>()
-            .Select("id, title, exercise, created_at, user:users(id)")
+            .Select("id, title, exercises, description, instructions, created_at, user:users(id)")
             .Filter("user_id", Constants.Operator.Equals, currentUserId)
             .Get();
 
@@ -49,7 +49,9 @@ public class WorkoutController : ControllerBase
             {
                 Id = workout.Id,
                 Title = workout.Title,
-                Exercise = workout.Exercise,
+                Exercises = workout.Exercises,
+                Description = workout.Description,
+                Instructions = workout.Instructions,
                 createdAt = workout.CreatedAt,
                 UserId = workout.User.Id,
             };
@@ -78,7 +80,9 @@ public class WorkoutController : ControllerBase
         var savedWorkout = new SavedWorkout
         {
             Title = vm.Title,
-            Exercise = vm.Exercise,
+            Exercises = vm.Exercises,
+            Description = vm.Description,
+            Instructions = vm.Instructions,
             CreatedAt = vm.createdAt,
             UserId = Int32.Parse(currentUserId),
         };
@@ -98,7 +102,7 @@ public class WorkoutController : ControllerBase
 
         var workout = await _client
             .From<SavedWorkout>()
-            .Select("id, title, exercise, created_at, user:users(id)")
+            .Select("id, title, exercises, description, instructions, created_at, user:users(id)")
             .Filter("id", Constants.Operator.Equals, workoutId)
             .Single();
 
@@ -112,7 +116,9 @@ public class WorkoutController : ControllerBase
         {
             UserId = workout.User.Id,
             Title = workout.Title,
-            Exercise = workout.Exercise,
+            Exercises = workout.Exercises,
+            Instructions = workout.Instructions,
+            Description = workout.Description,
             createdAt = workout.CreatedAt,
             Id = workout.Id,
         };
@@ -141,7 +147,9 @@ public class WorkoutController : ControllerBase
 
         // Update
         existing.Title = vm.Title;
-        existing.Exercise = vm.Exercise;
+        existing.Exercises = vm.Exercises;
+        existing.Description = vm.Description;
+        existing.Instructions = vm.Instructions;
 
         // Save
         await existing.Update<SavedWorkout>();
