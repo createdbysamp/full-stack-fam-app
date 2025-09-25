@@ -1,6 +1,6 @@
 export default function About () {
     return (
-        <div className="min-vh-100" style={{background: "linear-gradient(135deg,#c471f5,#fa71cd)"}}>
+        <div className="min-vh-100">
             <div className="container py-5">
                 <div className="card shadow-sm mx-auto" style={{ maxWidth: 900 }}>
                     <div className="card-body">

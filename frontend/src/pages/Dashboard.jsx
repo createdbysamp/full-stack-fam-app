@@ -15,7 +15,7 @@ const Dashboard = () => {
     }, []);
 
     return (
-        <div className="min-vh-100" style={{background: "linear-gradient(135deg,#c471f5,#fa71cd)"}}>
+        <div className="min-vh-100">
             <Navbar />
             <div className="container py-4">
                 <div className="d-flex justify-content-between align-items-center mb-3">
@@ -27,7 +27,7 @@ const Dashboard = () => {
                     <div className="card-header bg-white fw-semibold">Your progress</div>
                     <div className="card-body">
                         {loading && <div className="text-muted">Loading...</div>}
-                        {!loading && history.length === 0 && <div className="text-muted">No workouts yet</div>}
+                        {!loading && history.length === 0 && <div className="text-dark">No workouts yet</div>}
                         <div className="row g-3">
                             {history.map(item => (
                                 <div className="col-12 col-md-6" key={item.id}>
@@ -37,7 +37,7 @@ const Dashboard = () => {
                                                 <span className="badge bg-secondary me-2 text-uppercase">{item.type}</span>
                                                 <span className="fw-semibold">{item.summary || item.prompt}</span>
                                             </div>
-                                            <div className="small text-muted">{new Date(item.createdAt).toLocaleString()}</div>
+                                            <div className="small text-dark">{new Date(item.createdAt).toLocaleString()}</div>
                                         </div>
                                         <Link to={`/workouts/${item.id}`} className="btn btn-sm btn-outline-dark">View</Link>
                                     </div>
@@ -45,7 +45,7 @@ const Dashboard = () => {
                             ))}
                         </div>
                         <div className="mt-3">
-                            <Link to="/workouts" className="btn btn-outline-dark btn-sm">See all</Link>
+                            <Link to="/workouts" className="btn btn-outline-dark btn-sm text-dark">See all</Link>
                         </div>
                     </div>
                 </div>

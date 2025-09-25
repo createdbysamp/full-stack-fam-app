@@ -34,7 +34,7 @@ export default function Register() {
 
     return (
         <div className="d-flex justify-content-center align-items-center min-vh-100"
-            style={{background: "linear-gradient(135deg,#c471f5,#fa71cd)"}}>
+            >
             <div className="card shadow-sm" style={{ width: 480 }}>
                 <div className="card-body">
                     <h3 className="text-center mb-4">Sign Up</h3>
@@ -68,7 +68,7 @@ export default function Register() {
                     </form>
 
                     <div className="text-center mt-3">
-                        <small>Already swole? <Link to="/login">Log in, Buddy</Link></small>
+                        <small>Already swole? <Link to="/login" className="text-dark">Log in, Buddy</Link></small>
                     </div>
                 </div>
             </div>

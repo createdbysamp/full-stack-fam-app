@@ -36,7 +36,7 @@ export default function Generator() {
     }
 
     return (
-        <div className="min-vh-100" style={{background: "linear-gradient(135deg,#c471f5,#fa71cd)"}}>
+        <div className="min-vh-100">
             <Navbar />
             <div className="container py-4">
                 <div className="card shadow-sm mx-auto" style={{maxWidth: 820}}>

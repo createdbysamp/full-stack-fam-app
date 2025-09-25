@@ -24,7 +24,7 @@ export default function WorkoutDetail() {
     }
 
     return (
-        <div className="min-vh-100" style={{background: "linear-gradient(135deg,#c471f5,#fa71cd"}}>
+        <div className="min-vh-100">
             <Navbar />
             <div className="container py-4">
                 <div className="d-flex justify-content-between align-items-center mb-3">
@@ -54,7 +54,7 @@ export default function WorkoutDetail() {
                                                 <div className="border rounded p-3 h-100">
                                                     <div className="fw-semibold mb-2">Day {d.day}; {d.focus || "Routine"}</div>
                                                     <ul className="mb-0">
-                                                        {(d.moves || d.excercises || []).map((m, j) => <li key={j}>{m}</li>)}
+                                                        {(d.moves || d.exercises || []).map((m, j) => <li key={j}>{m}</li>)}
                                                     </ul>
                                                 </div>
                                             </div>

@@ -23,7 +23,6 @@ export default function Login() {
     return (
         <div
         className="d-flex justify-content-center align-items-center min-vh-100"
-        style={{ background: "linear-gradient(135deg,#c471f5,#fa71cd)" }}
         >
         <div className="card p-4 shadow-lg" style={{ minWidth: "400px", wdith: "100%" }}>
             <h4 className="mb-4 text-center">Login</h4>
