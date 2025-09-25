@@ -25,15 +25,37 @@ export default function Generator() {
             }
     }
 
-    async function handleSave() {
-        if (!output) return;
-        try {
-            await saveworkout({ type, prompt, output });
-            alert("Saved! Check workouts page");
-        } catch {
-            alert("Failed to save");
-        }
+  async function handleSave() {
+    if (!output) return;
+    try {
+      await saveworkout({ type, prompt, output });
+      alert("Saved! Check workouts page");
+    } catch {
+      alert("Failed to save");
     }
+  }
+
+  async function displayWorkout() {
+    <div className="card">
+      <div className="card-title">{output.title}</div>
+      <div className="card-body">
+        {Array(output.exercises).map((values) => {
+          return values.exercises.map((val) => {
+            return (
+              <div>
+                <span>Exercise name: {val.name}</span>
+                <span>Sets: {val.sets}</span>
+                <span>Reps: {val.reps}</span>
+                <span>Description: {val.description}</span>
+                <span>Instructions: {val.instructions}</span>
+              </div>
+            );
+          });
+        })}
+      </div>
+      <div className="card-footer">{output.exercises}</div>
+    </div>;
+  }
 
     return (
         <div className="min-vh-100">
