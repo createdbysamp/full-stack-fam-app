@@ -1,6 +1,6 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import { loginUser } from "../services/api";
+import { loginUser, getSession } from "../services/api";
 
 export default function Login() {
     const [userName, setUsername] = useState("");
@@ -8,17 +8,22 @@ export default function Login() {
     const [err, setErr] = useState("");
     const navigate = useNavigate();
 
-    async function handleSubmit(e) {
-    e.preventDefault();
-    setErr(null);
+    useEffect(() => {
+        const key = getSession(); 
+        if (key) navigate("/dashboard", { replace: true });
+    }, [navigate])
 
-    try {
-        await loginUser({ userName, password });
-        navigate("/dashboard");
-    } catch (err) {
-        setErr(err.message || "Login failed");
+    async function handleSubmit(e) {
+        e.preventDefault();
+        setErr(null);
+
+        try {
+            await loginUser({ userName, password });
+            navigate("/dashboard");
+        } catch (err) {
+            setErr(err.message || "Login failed");
+        }
     }
-}
 
     return (
         <div

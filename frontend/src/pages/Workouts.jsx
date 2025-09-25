@@ -4,7 +4,7 @@ import { fetchHistory, deleteWorkout } from '../services/api';
 import { Link } from 'react-router-dom';
 
 export default function Workouts() {
-    const [items, setItems] = useState([]);
+    const [items, setItems] = useState({ workouts: []});
     const [loading, setLoading] = useState(true);
 
     async function load() {
@@ -20,7 +20,7 @@ export default function Workouts() {
     async function remove(id) {
         if (!window.confirm("Delete this workout?")) return;
         await deleteWorkout(id);
-        setItems(items.filter(i => i.id !== id));
+        setItems(items.workouts.filter(i => i.id !== id));
     }
 
     return (
@@ -32,10 +32,10 @@ export default function Workouts() {
                 <div className="card shadow-sm">
                     <div className="card-header bg-white fw-semibold">History</div>
                     <div className="card-body">
-                        {loading && <div className="text-dark">Loading...</div>}
-                        {!loading && items.length === 0 && <div className="text-dark">No workouts yet...</div>}
+                        {loading && <div className="text-muted">Loading...</div>}
+                        {!loading && items.workouts.length === 0 && <div className="text-muted">No workouts yet...</div>}
                         <div className="list-group">
-                            {items.map(p => (
+                            {items.workouts.map(p => (
                                 <div key={p.id} className="list-group-item d-flex justify-content-between align-items-center">
                                     <div>
                                         <span className="badge bg-secondary me-2 text-uppercase">{p.type}</span>
@@ -51,7 +51,6 @@ export default function Workouts() {
                         </div>
                     </div>
                 </div>
-
             </div>
         </div>
     );
