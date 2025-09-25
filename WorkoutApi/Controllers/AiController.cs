@@ -180,15 +180,13 @@ public class AiController : ControllerBase
             var jsonWorkout = CleanJsonResponse(workout);
 
             return Ok(
-                new
-                {
-                    UserInput = userInput,
-                    GeneratedSQL = cleanSql,
-                    ExerciseData = exerciseData,
-                    // RawWorkout = workout,
-                    Workoutworkout = jsonWorkout,
-                    Pipeline = "User Input → Agent0 (SQL) → PostgreSQL → Agent2 (Workout Generation)!!",
-                }
+                // UserInput = userInput,
+                // GeneratedSQL = cleanSql,
+                // ExerciseData = exerciseData,
+                // RawWorkout = workout,
+                jsonWorkout
+            // Pipeline = "User Input → Agent0 (SQL) → PostgreSQL → Agent2 (Workout Generation)!!",
+
             );
         }
         catch (Exception ex)
