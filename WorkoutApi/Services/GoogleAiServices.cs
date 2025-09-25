@@ -21,7 +21,7 @@ namespace WorkoutApi.Services
 
         public async Task<string> GenerateContentAsync(string prompt)
         {
-            var model = _googleAI.CreateGenerativeModel("models/gemini-1.5-flash");
+            var model = _googleAI.CreateGenerativeModel("models/gemini-2.5-flash");
             var response = await model.GenerateContentAsync(prompt);
             return response.Text();
         }

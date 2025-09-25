@@ -5,7 +5,7 @@ export default function About () {
                 <div className="card shadow-sm mx-auto" style={{ maxWidth: 900 }}>
                     <div className="card-body">
                         <h3 className="mb-3">About Swole Buddy</h3>
-                        <p>
+                        <p className="text-bg-dark">
                         Welcome to your new Personal Trainer! Swole Buddy is the premier app that creates personalized training programs, adapts to your progress and current requirements, and helps you stay motivated with smart recommendations.
                         </p>
 
@@ -30,12 +30,12 @@ export default function About () {
                                 <li>Infrastructure</li>
                             </ul>
 
-                        <p>
+                        <p className="text-bg-primary">
                             Database: Supabase
                             Deployment: Docker (hopefully....)
                         </p>
 
-                        <p>
+                        <p className="text-bg-info">
                             Languages:
                                 Javascript
                                 C#
