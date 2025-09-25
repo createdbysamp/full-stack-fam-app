@@ -1,9 +1,8 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { loginUser } from "../services/api";
 
 export default function Login() {
-    const nav = useNavigate();
     const [userName, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [err, setErr] = useState("");
@@ -28,15 +27,42 @@ export default function Login() {
         >
         <div className="card p-4 shadow-lg" style={{ minWidth: "400px", wdith: "100%" }}>
             <h4 className="mb-4 text-center">Login</h4>
-
+            {err && <div className="alert alert-danger">{err}</div>}
             <form onSubmit={handleSubmit}>
                 <div className="mb-3">
-                    <label htmlFor="userName" className="form-label"
+                    <label htmlFor="userName" className="form-label">
+                        Username
+                    </label>
+                    <input 
+                        type="text"
+                        className="form-control"
+                        id="userName"
+                        value={userName}
+                        onChange={(e) => setUsername(e.target.value)}
+                        required
+                    />
                 </div>
+                <div className="mb-3">
+                    <label htmlFor="password" className="form-label">
+                        Password
+                    </label>
+                    <input
+                        type="password"
+                        className="form-control"
+                        id="password"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                        required
+                    />
+                </div>
+                <button type="submit" className="btn btn-primary w-100">
+                    Log In
+                </button>
             </form>
-            <small className="text-muted text-center">
+            <p className="text-muted text-center mt-3">
             Don't have an account? <Link to="/register">Sign Up</Link>
-            </small>
+            </p>
+            <img src="/images/workout-bar.jpg" alt="dumbbells" className="img-fluid rounded" />
         </div>
         </div>
     );

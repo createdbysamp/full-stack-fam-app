@@ -7,7 +7,7 @@ and helps you stay motivated with smart recommendations.
 
 ## Features
 
-- Create workout plans personalized to you and your personal needs
+- Create workout workouts personalized to you and your personal needs
 - View past workouts and rate them, so you can remember which best fit
 - New to working out? No problem! Swole Buddy adjusts to your skill level
 
@@ -67,7 +67,7 @@ Languages:
 ## Roadmap
 - Finish MVP
 - Progress Tracking - Goals and Badges
-- Add Meal planning
+- Add Meal workoutning
 
 ---
 

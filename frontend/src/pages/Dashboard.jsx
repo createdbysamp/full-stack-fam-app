@@ -22,16 +22,16 @@ const Dashboard = () => {
                     <h3 className="text-white mb-0">Welcome back, @username!</h3>
                     <Link to="/generator" className="btn btn-light">Get Started</Link>
                 </div>
-
+                <img src="/images/login-illustration.jpg" alt="dumbbells" className="img-fluid rounded" />
                 <div className="card shadow-sm">
                     <div className="card-header bg-white fw-semibold">Your progress</div>
                     <div className="card-body">
                         {loading && <div className="text-muted">Loading...</div>}
-                        {!loading && history.length === 0 && <div className="text-muted">No plans yet</div>}
+                        {!loading && history.length === 0 && <div className="text-muted">No workouts yet</div>}
                         <div className="row g-3">
                             {history.map(item => (
                                 <div className="col-12 col-md-6" key={item.id}>
-                                    <div className="border rounded p-3 d-f;ex justify-content-between align-items-center h-100">
+                                    <div className="border rounded p-3 d-flex justify-content-between align-items-center h-100">
                                         <div>
                                             <div>
                                                 <span className="badge bg-secondary me-2 text-uppercase">{item.type}</span>
@@ -39,13 +39,13 @@ const Dashboard = () => {
                                             </div>
                                             <div className="small text-muted">{new Date(item.createdAt).toLocaleString()}</div>
                                         </div>
-                                        <Link to={`/plans/${item.id}`} className="btn btn-sm btn-outline-dark">View</Link>
+                                        <Link to={`/workouts/${item.id}`} className="btn btn-sm btn-outline-dark">View</Link>
                                     </div>
                                 </div>
                             ))}
                         </div>
                         <div className="mt-3">
-                            <Link to="/plans" className="btn btn-outline-dark btn-sm">See all</Link>
+                            <Link to="/workouts" className="btn btn-outline-dark btn-sm">See all</Link>
                         </div>
                     </div>
                 </div>
