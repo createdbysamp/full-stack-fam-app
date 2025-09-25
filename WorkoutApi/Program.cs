@@ -14,6 +14,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
+Console.WriteLine(builder.Configuration["GoogleAI:ApiKey"]);
 // GOOGLE API SERVICES
 var apiKey = builder.Configuration["GoogleAI:ApiKey"];
 builder.Services.AddSingleton<GoogleAIService>();
@@ -50,17 +51,17 @@ builder.Services.AddSingleton<Client>(p =>
     return supabase;
 });
 
-// var cors = "_vite";
-// builder.Services.AddCors(o =>
-//     o.AddPolicy(
-//         cors,
-//         p =>
-//             p.WithOrigins("http://localhost:5173")
-//                 .AllowAnyHeader()
-//                 .AllowAnyMethod()
-//                 .AllowCredentials()
-//     )
-// );
+var cors = "_vite";
+builder.Services.AddCors(o =>
+    o.AddPolicy(
+        cors,
+        p =>
+            p.WithOrigins("http://localhost:5173")
+                .AllowAnyHeader()
+                .AllowAnyMethod()
+                .AllowCredentials()
+    )
+);
 
 // user validation services
 builder

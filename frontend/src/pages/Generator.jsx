@@ -16,7 +16,7 @@ export default function Generator() {
         setLoading(true);
         setLoading(true);
         try {
-            const res = await generateWorkout({ prompt })
+            const res = await generateWorkout(prompt)
             setOutput(res);
             } catch {
                 setError("Failed to generate.");
