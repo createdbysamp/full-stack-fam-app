@@ -24,33 +24,6 @@ public class AiController : ControllerBase
         _configuration = configuration;
     }
 
-    // generate sql query
-
-    // [HttpGet("test")]
-    // public async Task<IActionResult> GenerateSqlQuery(string question, string full_table_name)
-    // {
-    //     var prompt =
-    //         $"Generate only 1 SQL query based on these parameters: {question}. The table to use is {full_table_name}. The columns you will use are 'category', 'type', 'subtype', & 'subtype_two'. Use only the columns needed to answer the question, not all of the available columns. Limit data as much as possible, and follow strictly Postgres syntax."
-    //         + $"Always output plain SQL only, no extra text or exworkoutation"
-    //         + $"The value of sqlQuery must be plain SQL only, no formatting or code fences.";
-    //     var response = await _googleAi.GenerateContentAsync(prompt);
-    //     // Console.WriteLine($"raw RESPONSE: {response}");
-
-    //     // clean SQL response
-    //     var cleanSql = ExtractCleanSql(response);
-    //     // Console.WriteLine($"clean RESPONSE: {cleanSql}");
-
-    //     return Ok(
-    //         new
-    //         {
-    //             Question = question,
-    //             TableName = full_table_name,
-    //             SqlQuery = cleanSql,
-    //             RawResponse = response, // for debugging
-    //         }
-    //     );
-    // }
-
     // execute query helper method
     // Execute SQL using direct PostgreSQL connection
     private async Task<List<Dictionary<string, object>>> ExecuteSqlWithConnectionString(
@@ -171,6 +144,7 @@ public class AiController : ControllerBase
                 + $"Match the user's workout goals: {userInput}. "
                 + "Only include information found in the dataset. "
                 + "Return the response as raw JSON object with this exact structure: "
+                + "Create the instructions category on your own. "
                 + "{ \"title\": \"workout name\", "
                 + "\"exercises\": [ "
                 + "{ \"name\": \"exercise name\", \"sets\": \"number\", \"reps\": \"number\", \"description\": \"from dataset\", \"instructions\": \"brief form cues\" } "
@@ -194,62 +168,6 @@ public class AiController : ControllerBase
             return BadRequest(new { Error = ex.Message });
         }
     }
-
-    // private async Task<string> ExecuteViaRestApi(string sqlQuery)
-    // {
-    //     using var httpClient = new HttpClient();
-    //     httpClient.Timeout = TimeSpan.FromSeconds(30);
-    //     httpClient.DefaultRequestHeaders.Add("apikey", _configuration["Supabase:Key"]);
-
-    //     // Simple mapping of user input to REST API filters
-    //     var filters = new List<string>();
-    //     var input = sqlQuery.ToLower();
-
-    //     // category
-    //     if (input.Contains("strength"))
-    //         filters.Add("category=eq.Strength");
-    //     if (input.Contains("calisthenics"))
-    //         filters.Add("category=eq.Calisthenics");
-    //     if (input.Contains("mindfulness"))
-    //         filters.Add("category=eq.Mindfulness");
-
-    //     // level
-    //     if (input.Contains("beginner"))
-    //         filters.Add("level=ilike.*Beginner*");
-    //     if (input.Contains("intermediate"))
-    //         filters.Add("level=ilike.*Intermediate*");
-    //     if (input.Contains("advanced"))
-    //         filters.Add("level=ilike.*Advanced*");
-
-    //     // type/subtype
-    //     if (input.Contains("tai chi") || input.Contains("tai"))
-    //         filters.Add("type=ilike.*Tai*");
-    //     if (input.Contains("chest"))
-    //         filters.Add("type=ilike.*Chest*");
-    //     if (input.Contains("legs") || input.Contains("leg"))
-    //         filters.Add("type=ilike.*Leg*,type=ilike.*Quad*");
-    //     if (input.Contains("core"))
-    //         filters.Add("type=eq.Core");
-
-    //     // equpiment
-    //     if (input.Contains("bodyweight"))
-    //         filters.Add("subtype_two=ilike.*Bodyweight*");
-    //     if (input.Contains("machine"))
-    //         filters.Add("subtype_two=ilike.*Machine*");
-    //     if (input.Contains("dumbbell"))
-    //         filters.Add("subtype_two=ilike.*Dumbbell*");
-
-    //     // combining filters
-    //     var filterString = filters.Count > 0 ? "&" + string.Join("&", filters) : "";
-
-    //     // Default to returning some exercises if no specific filters match
-    //     var limit = filters.Count > 0 ? 8 : 5;
-
-    //     var url =
-    //         $"{_configuration["Supabase:Url"]}/rest/v1/exercises?select=*{filterString}&limit={limit}";
-    //     var response = await httpClient.GetAsync(url);
-    //     return await response.Content.ReadAsStringAsync();
-    // }
 
     // helper method
     private string ExtractCleanSql(string response)
@@ -281,62 +199,6 @@ public class AiController : ControllerBase
 
         return cleaned.Trim();
     }
-
-    // [HttpGet("debug-connection")]
-    // public IActionResult DebugConnection()
-    // {
-    //     try
-    //     {
-    //         var connectionString = _configuration["Supabase:DatabaseUrl"];
-    //         return Ok(
-    //             new
-    //             {
-    //                 ConnectionString = connectionString,
-    //                 Length = connectionString?.Length ?? 0,
-    //                 IsNull = connectionString == null,
-    //             }
-    //         );
-    //     }
-    //     catch (Exception ex)
-    //     {
-    //         return BadRequest(new { Error = ex.Message });
-    //     }
-    // }
-
-    // [HttpGet("test-rest-strength")]
-    // public async Task<IActionResult> TestRestStrength()
-    // {
-    //     try
-    //     {
-    //         using var httpClient = new HttpClient();
-    //         httpClient.Timeout = TimeSpan.FromSeconds(30); // Longer timeout like PostgreSQL
-    //         httpClient.DefaultRequestHeaders.Add("apikey", _configuration["Supabase:Key"]);
-    //         httpClient.DefaultRequestHeaders.Add(
-    //             "Authorization",
-    //             $"Bearer {_configuration["Supabase:Key"]}"
-    //         );
-
-    //         var response = await httpClient.GetAsync(
-    //             $"{_configuration["Supabase:Url"]}/rest/v1/exercises?select=name,category&category=eq.Strength&limit=2"
-    //         );
-    //         var content = await response.Content.ReadAsStringAsync();
-
-    //         return Ok(
-    //             new
-    //             {
-    //                 Query = "Strength exercises via REST API",
-    //                 StatusCode = response.StatusCode,
-    //                 Content = content,
-    //                 ResponseTime = "Will show in network tab",
-    //             }
-    //         );
-    //     }
-    //     catch (Exception ex)
-    //     {
-    //         return BadRequest(new { Error = ex.Message, Type = ex.GetType().Name });
-    //     }
-    // }
-    // http://localhost:5073
 
     [HttpGet("test-postgres-categories")]
     public async Task<IActionResult> TestPostgresCategories()
