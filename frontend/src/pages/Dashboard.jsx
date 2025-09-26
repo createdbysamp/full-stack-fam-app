@@ -39,7 +39,7 @@ const Dashboard = () => {
                                             </div>
                                             <div className="small text-dark">{new Date(item.createdAt).toLocaleString()}</div>
                                         </div>
-                                        <Link to={`/workouts/${item.id}`} className="btn btn-sm btn-outline-dark">View</Link>
+                                        <Link to={`/workouts/${item.id}`} className="btn btn-sm btn-outline-dark text-success">View</Link>
                                     </div>
                                 </div>
                             ))}
