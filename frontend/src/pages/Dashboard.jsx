@@ -34,10 +34,9 @@ const Dashboard = () => {
                                     <div className="border rounded p-3 d-flex justify-content-between align-items-center h-100">
                                         <div>
                                             <div>
-                                                <span className="badge bg-secondary me-2 text-uppercase">{item.type}</span>
-                                                <span className="fw-semibold">{item.summary || item.prompt}</span>
+                                                <span className="badge bg-secondary me-2 text-uppercase text-dark">{item.title}</span>
                                             </div>
-                                            <div className="small text-dark">{new Date(item.createdAt).toLocaleString()}</div>
+                                            <div className="small text-dark">{new Date(item.createdAt).toLocaleDateString()}</div>
                                         </div>
                                         <Link to={`/workouts/${item.id}`} className="btn btn-sm btn-outline-dark text-success">View</Link>
                                     </div>
