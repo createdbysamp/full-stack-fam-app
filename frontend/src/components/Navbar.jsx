@@ -14,6 +14,13 @@ export default function Navbar() {
         <nav className="navbar navbar-expand bg-light border-bottom">
             <div className="container">
                 <span style={{ fontFamily: "'Black Ops One', sans-serif"}}>
+                    <img 
+                    src="/kettlebell.png"
+                    alt="logo" 
+                    width="50"
+                    height="50"
+                    className="d-inline-block me-2 align-top"/>
+
                 <Link to="/" className="navbar-brand text-primary">Swole Buddy</Link>
                 </span>
 
