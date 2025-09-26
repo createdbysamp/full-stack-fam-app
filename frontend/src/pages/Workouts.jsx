@@ -20,8 +20,10 @@ export default function Workouts() {
     async function remove(id) {
         if (!window.confirm("Delete this workout?")) return;
         await deleteWorkout(id);
-        setItems(items.workouts.filter(i => i.id !== id));
+        setItems(items => ({ ...items, workouts: items.workouts.filter(i => i.id !== id) }));
     }
+
+    console.log(items);
 
     return (
         <div className="min-vh-100">

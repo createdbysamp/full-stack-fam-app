@@ -34,7 +34,7 @@ const Dashboard = () => {
                                     <div className="border rounded p-3 d-flex justify-content-between align-items-center h-100">
                                         <div>
                                             <div>
-                                                <span className="badge bg-secondary me-2 text-uppercase text-dark">{item.title}</span>
+                                                <span className="badge bg-secondary p-0 text-uppercase text-dark">{item.title}</span>
                                             </div>
                                             <div className="small text-dark">{new Date(item.createdAt).toLocaleDateString()}</div>
                                         </div>

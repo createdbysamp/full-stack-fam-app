@@ -27,8 +27,6 @@ export default function WorkoutDetail() {
         nav("/workouts");
     }
 
-    // console.log(workout?.exercises ? JSON.parse(workout?.exercises) : "");
-    console.log(parsedExercise);
     return (
         <div className="min-vh-100">
             <Navbar />
@@ -57,14 +55,7 @@ export default function WorkoutDetail() {
                                 {parsedExercise?.exercises && (
                                     <WorkoutDetails parsedExercise={parsedExercise} />
                                 )}
-
-                                <div className="small">{new Date(workout.createdAt).toLocaleString()}</div>
-                                {/* show JSON i unknown shape for fallback
-                                {!workout.output?.days && (
-                                    <pre className="bg-light p-3 rounded small" style={{whiteSpace: 'pre-wrap'}}>
-                                        {JSON.stringify(workout.output, null, 2)}
-                                    </pre>
-                                )} */}
+                                <div className="small text-dark">{new Date(workout.createdAt).toLocaleDateString()}</div>
                             </>
                         )}
                     </div>

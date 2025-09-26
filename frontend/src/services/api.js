@@ -1,5 +1,5 @@
 const BASE = import.meta.env.VITE_API_BASE || "http://localhost:5073";
-console.log("API BASE =", BASE);
+// console.log("API BASE =", BASE); Uncomment if required to test
 
 const KEY = "auth_tokens";
 
@@ -138,7 +138,7 @@ export async function saveworkout(w) {
   return http("/workouts/create", { method: "POST", body: w });
 }
 export async function deleteWorkout(id) {
-  return http(`/workouts/${id}`, { method: "POST" });
+  return http(`/workouts/delete/${id}`, { method: "POST" });
 }
 
 // const STORAGE = {
