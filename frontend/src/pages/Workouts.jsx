@@ -32,8 +32,8 @@ export default function Workouts() {
                 <div className="card shadow-sm">
                     <div className="card-header bg-white fw-semibold">History</div>
                     <div className="card-body">
-                        {loading && <div className="text-muted">Loading...</div>}
-                        {!loading && items.workouts.length === 0 && <div className="text-muted">No workouts yet...</div>}
+                        {loading && <div className="text-dark">Loading...</div>}
+                        {!loading && items.workouts.length === 0 && <div className="text-dark">No workouts yet...</div>}
                         <div className="list-group">
                             {items.workouts.map(p => (
                                 <div key={p.id} className="list-group-item d-flex justify-content-between align-items-center">
