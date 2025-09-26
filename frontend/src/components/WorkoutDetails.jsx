@@ -4,8 +4,7 @@ export default function WorkoutDetails({ parsedExercise }) {
   return (
     <div className="mb-3">
       {parsedExercise.exercises.map((d, i) => (
-        <>
-          <div key={d.name}>
+        <div key={d.name}>
             <div className="card h-100 mb-3">
               <div className="card-header d-flex justify-content-center">
                 <h3 className="fw-semibold text-center m-0">{d.name}</h3>
@@ -17,7 +16,6 @@ export default function WorkoutDetails({ parsedExercise }) {
                 <p>Instructions: {d.instructions}</p>
               </div>
             </div>
-          </div>
           {i != parsedExercise.exercises.length - 1 && (
             <div className="d-flex justify-content-center">
               <FaArrowDownLong
@@ -27,7 +25,7 @@ export default function WorkoutDetails({ parsedExercise }) {
               />
             </div>
           )}
-        </>
+        </div>
       ))}
     </div>
   );
