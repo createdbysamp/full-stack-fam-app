@@ -43,7 +43,7 @@ export default function Workouts() {
                                         <small className="text-muted">{new Date(p.createdAt).toLocaleString()}</small>
                                     </div>
                                     <div>
-                                        <Link to={`/workouts/${p.id}`} className="btn btn-sm btn-outline-dark me-2">View</Link>
+                                        <Link to={`/workouts/${p.id}`} className="btn btn-sm btn-outline-success text-dark me-2">View</Link>
                                         <button className="btn btn-sm btn-outline-danger" onClick={() => remove(p.id)}>Delete</button>
                                     </div>
                                 </div>
