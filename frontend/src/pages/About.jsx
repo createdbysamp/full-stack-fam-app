@@ -1,11 +1,14 @@
+import Home from './Home';
+import { Link } from 'react-router-dom';
 export default function About () {
     return (
         <div className="min-vh-100">
             <div className="container py-5">
                 <div className="card shadow-sm mx-auto" style={{ maxWidth: 900 }}>
                     <div className="card-body">
-                        <h3 className="mb-3">About Swole Buddy</h3>
-                        <p className="text-bg-dark">
+                    <Link to="/" className="btn btn-outline-secondary btn-sm w-25 text-dark text-center d-block mx-auto">Home</Link>
+                        <h3 className="mb-3 text-center d-block mx-auto">About Swole Buddy</h3>
+                        <p className="text-bg-primary">
                         Welcome to your new Personal Trainer! Swole Buddy is the premier app that creates personalized training programs, adapts to your progress and current requirements, and helps you stay motivated with smart recommendations.
                         </p>
 
@@ -30,12 +33,12 @@ export default function About () {
                                 <li>Infrastructure</li>
                             </ul>
 
-                        <p className="text-bg-primary">
+                        <p>
                             Database: Supabase
                             Deployment: Docker (hopefully....)
                         </p>
 
-                        <p className="text-bg-info">
+                        <p>
                             Languages:
                                 Javascript
                                 C#

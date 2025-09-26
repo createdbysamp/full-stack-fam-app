@@ -70,6 +70,7 @@ export default function Register() {
                     <div className="text-center mt-3">
                         <small>Already swole? <Link to="/login" className="text-dark">Log in, Buddy</Link></small>
                     </div>
+                <Link to="/" className="btn btn-outline-secondary btn-sm w-25 text-dark text-center d-block mx-auto" style={{ margin: '10px'}}>Home</Link>
                 </div>
             </div>
                 

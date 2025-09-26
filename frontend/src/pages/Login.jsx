@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { loginUser, getSession } from "../services/api";
+import Home from './Home';
 
 export default function Login() {
     const [userName, setUsername] = useState("");
@@ -24,7 +25,7 @@ export default function Login() {
             setErr(err.message || "Login failed");
         }
     }
-
+    
     return (
         <div
         className="d-flex justify-content-center align-items-center min-vh-100"
@@ -63,9 +64,10 @@ export default function Login() {
                     Log In
                 </button>
             </form>
-            <p className="text-muted text-center mt-3">
-            Don't have an account? <Link to="/register">Sign Up</Link>
+            <p className="text-dark text-center mt-3">
+            Don't have an account? <Link to="/register" className="text-primary">Sign Up</Link>
             </p>
+            <Link to="/" className="btn btn-outline-secondary btn-sm w-25 text-dark text-center d-block mx-auto" style={{ margin: '10px'}}>Home</Link>
             <img src="/images/pink-dude.jpg" alt="guy lifting" className="img-fluid rounded w-75 mx-auto" />
         </div>
         </div>

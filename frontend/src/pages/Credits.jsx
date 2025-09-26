@@ -1,3 +1,6 @@
+import Home from './Home';
+import { Link } from 'react-router-dom';
+
 export default function Credits() {
 
     const team = [
@@ -11,9 +14,10 @@ export default function Credits() {
             <div className="container py-5">
                 <div className="card shadow-sm mx-auto" style={{ maxWidth: 900 }}>
                     <div className="card-body">
-                        <h3 className="mb-3">Credits</h3>
+                    <Link to="/" className="btn btn-outline-secondary btn-sm w-25 text-dark text-center d-block mx-auto">Home</Link>
+                        <h3 className="mb-3 text-center">Credits</h3>
                         
-                        <p>
+                        <p className="text-center mb-3">
                             Built by the <strong>Full-Stack Fam Team</strong>, for our Capstone Project.
                         </p>
 
@@ -38,7 +42,7 @@ export default function Credits() {
                             ))}
                         </ul>
 
-                        <p className="text-muted small mt-4">
+                        <p className="text-dark text-center small mt-4">
                             Stack: Vite + React + Bootstrap + .NET + Supabase + AI
                         </p>
                     </div>

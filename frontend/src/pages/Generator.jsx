@@ -70,22 +70,22 @@ export default function Generator() {
             <Navbar />
             <div className="container py-4">
                 <div className="card shadow-sm mx-auto" style={{maxWidth: 820}}>
-                    <div className="card-header bg-white fw-semibold">Hey, @{getSession()["userName"]}, what's up?</div>
+                    <div className="card-header bg-white fw-semibold d-flex m-auto">Hey, @{getSession()["userName"]}, what's up?</div>
                     <div className="card-body">
                         <form onSubmit={handleSubmit} className="row g-3">
-                            <div className="col-md-9">
+                            <div className="col-md-9 d-flex m-auto">
                                 <select className="form-select" value={type} onChange={e=>setType(e.target.value)}>
                                     <option value="workout">Workout</option>
                                 </select>
                             </div>
-                            <div className="col-md-9">
+                            <div className="col-md-9 d-flex m-auto">
                                 <input className="form-control"
-                                    placeholder="Build me a workout workout..."
+                                    placeholder="Build me a workout..."
                                     value={prompt} onChange={e=>setPrompt(e.target.value)} />
                             </div>
                             <div className="col-12">
                                 {error && <div className="alert alert-danger py-2 mb-2">{error}</div>}
-                                <button className="btn btn-primary" disabled={loading}>
+                                <button className="btn btn-primary d-flex m-auto" disabled={loading}>
                                     {loading ? "Generating..." : "Submit"}
                                 </button>
                             </div>

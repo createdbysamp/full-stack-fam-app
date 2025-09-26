@@ -19,15 +19,15 @@ const Dashboard = () => {
             <Navbar />
             <div className="container py-4">
                 <div className="d-flex justify-content-between align-items-center mb-3">
-                    <h3 className="text-white mb-0">Welcome back, @{getSession()["userName"] || "user!"}</h3>
-                    <Link to="/generator" className="btn btn-light">Get Started</Link>
+                    <h3 className="text-light mb-0 d-block mx-auto">Welcome back, @{getSession()["userName"] || "user!"} !</h3>
+                    <Link to="/generator" className="btn btn-dark d-block mx-auto">Get Started</Link>
                 </div>
-                <img src="/images/login-illustration.jpg" alt="dumbbells" className="img-fluid rounded" />
-                <div className="card shadow-sm">
+                <img src="/images/login-illustration.jpg" alt="bar" className="img-fluid d-block mx-auto rounded" style={{ maxWidth: '900px' }}/>
+                <div className="card shadow-sm d-block mx-auto" style={{ maxWidth: '900px' }}>
                     <div className="card-header bg-white fw-semibold">Your progress</div>
                     <div className="card-body">
-                        {loading && <div className="text-muted">Loading...</div>}
-                        {!loading && history.length === 0 && <div className="text-muted">No workouts yet</div>}
+                        {loading && <div className="text-dark">Loading...</div>}
+                        {!loading && history.length === 0 && <div className="text-dark">No workouts yet</div>}
                         <div className="row g-3">
                             {history.workouts.map(item => (
                                 <div className="col-12 col-md-6" key={item.id}>
@@ -44,7 +44,7 @@ const Dashboard = () => {
                             ))}
                         </div>
                         <div className="mt-3">
-                            <Link to="/workouts" className="btn btn-outline-dark btn-sm text-dark">See all</Link>
+                            <Link to="/workouts" className="btn btn-outline-success btn-sm text-dark">See all</Link>
                         </div>
                     </div>
                 </div>

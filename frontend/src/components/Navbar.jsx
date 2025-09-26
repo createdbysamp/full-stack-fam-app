@@ -13,7 +13,9 @@ export default function Navbar() {
     return (
         <nav className="navbar navbar-expand bg-light border-bottom">
             <div className="container">
-                <Link to="/" className="navbar-brand">Swole Buddy</Link>
+                <span style={{ fontFamily: "'Black Ops One', sans-serif"}}>
+                <Link to="/" className="navbar-brand text-primary">Swole Buddy</Link>
+                </span>
 
                 {authed ? (
                     <div className="d-flex gap-2 ms-auto">
@@ -24,10 +26,10 @@ export default function Navbar() {
                     </div>
                 ) : (
                     <div className="d-flex gap-2 ms-auto">
-                        <Link to="/about" className="btn btn-outline-secondary btn-sm">About</Link>
-                        <Link to="/credits" className="btn btn-outline-secondary btn-sm">Credits</Link>
-                        <Link to="/login" className="btn btn-outline-secondary btn-sm">Login</Link>
-                        <Link to="/register" className="btn btn-outline-secondary btn-sm">Register</Link>
+                        <Link to="/about" className="btn btn-outline-primary btn-sm">About</Link>
+                        <Link to="/credits" className="btn btn-outline-primary btn-sm">Credits</Link>
+                        <Link to="/login" className="btn btn-outline-primary btn-sm">Login</Link>
+                        <Link to="/register" className="btn btn-outline-success btn-sm">Register</Link>
                     </div>
                 )}
             </div>
